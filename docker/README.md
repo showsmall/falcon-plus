@@ -1,6 +1,6 @@
 ## Running open-falcon container
 
-`the latest version in docker hub is v0.2.1`
+`the latest version in docker hub is v0.3`
 
 ##### 1. Start mysql and init the mysql table before the first running
 ```
@@ -33,7 +33,7 @@ docker run --name falcon-redis -p6379:6379 -d redis:4-alpine3.8
 
 ```
     ## pull images from hub.docker.com/openfalcon
-    docker pull openfalcon/falcon-plus:v0.2.1
+    docker pull openfalcon/falcon-plus:v0.3
     
     ## run falcon-plus container
     docker run -itd --name falcon-plus \
@@ -45,7 +45,7 @@ docker run --name falcon-redis -p6379:6379 -d redis:4-alpine3.8
          -e REDIS_PORT=redis.falcon:6379  \
          -v /home/work/open-falcon/data:/open-falcon/data \
          -v /home/work/open-falcon/logs:/open-falcon/logs \
-         openfalcon/falcon-plus:v0.2.1
+         openfalcon/falcon-plus:v0.3
     
     ## start falcon backend modules, such as graph,api,etc.
     docker exec falcon-plus sh ctrl.sh start \
@@ -82,6 +82,10 @@ docker run --name falcon-redis -p6379:6379 -d redis:4-alpine3.8
         -w /open-falcon/dashboard openfalcon/falcon-dashboard:v0.2.1  \
        './control startfg'
 ```
+##### 5. Start falcon-agent in container
+```
+    sudo docker run -d --restart always --name falcon-agent -e NUX_ROOTFS=/rootfs -v /:/rootfs:ro openfalcon/falcon-plus:v0.3 ./agent/bin/falcon-agent -c /open-falcon/agent/config/cfg.json
+```
 
 ----
 
@@ -93,7 +97,7 @@ docker run --name falcon-redis -p6379:6379 -d redis:4-alpine3.8
     cd /tmp && \
     git clone https://github.com/open-falcon/falcon-plus && \
     cd /tmp/falcon-plus/ && \
-    docker build -t falcon-plus:v0.2.1 .
+    docker build -t falcon-plus:v0.3 .
 ```
 
 ##### Building falcon-dashboard

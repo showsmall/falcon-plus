@@ -18,11 +18,11 @@ import (
 	"fmt"
 	"strconv"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 	h "github.com/open-falcon/falcon-plus/modules/api/app/helper"
 	f "github.com/open-falcon/falcon-plus/modules/api/app/model/falcon_portal"
 	u "github.com/open-falcon/falcon-plus/modules/api/app/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 func GetHostBindToWhichHostGroup(c *gin.Context) {
@@ -102,8 +102,8 @@ func GetGrpsRelatedHost(c *gin.Context) {
 		return
 	}
 
-	host := f.Host{ID: int64(hostID)}
-	if dt := db.Falcon.Find(&host); dt.Error != nil {
+	host := f.Host{}
+	if dt := db.Falcon.Where("id = ?", hostID).Find(&host); dt.Error != nil {
 		h.JSONR(c, expecstatus, dt.Error)
 		return
 	}
@@ -124,12 +124,13 @@ func GetTplsRelatedHost(c *gin.Context) {
 		h.JSONR(c, badstatus, err)
 		return
 	}
-	host := f.Host{ID: int64(hostID)}
-	if dt := db.Falcon.Find(&host); dt.Error != nil {
+	host := f.Host{}
+	if dt := db.Falcon.Where("id = ?", hostID).Find(&host); dt.Error != nil {
 		h.JSONR(c, expecstatus, dt.Error)
 		return
 	}
 	tpls := host.RelatedTpl()
+	fmt.Println("hostid:", host.ID)
 	h.JSONR(c, tpls)
 	return
 }

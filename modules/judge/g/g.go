@@ -22,9 +22,17 @@ import (
 // change log
 // 2.0.1: bugfix HistoryData limit
 // 2.0.2: clean stale data
-const (
-	VERSION = "2.0.2"
+// 2.0.3: add timeout to sync strategies and expressions
+
+var (
+	BinaryName string
+	Version    string
+	GitCommit  string
 )
+
+func VersionMsg() string {
+	return Version + "@" + GitCommit
+}
 
 func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())

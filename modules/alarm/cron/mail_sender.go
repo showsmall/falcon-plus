@@ -15,10 +15,10 @@
 package cron
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"github.com/open-falcon/falcon-plus/modules/alarm/g"
 	"github.com/open-falcon/falcon-plus/modules/alarm/model"
 	"github.com/open-falcon/falcon-plus/modules/alarm/redi"
+	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/net/httplib"
 	"time"
 )
@@ -53,7 +53,7 @@ func SendMail(mail *model.Mail) {
 	r.Param("content", mail.Content)
 	resp, err := r.String()
 	if err != nil {
-		log.Errorf("send mail fail, receiver:%s, subject:%s, cotent:%s, error:%v", mail.Tos, mail.Subject, mail.Content, err)
+		log.Errorf("send mail fail, receiver:%s, subject:%s, content:%s, error:%v", mail.Tos, mail.Subject, mail.Content, err)
 	}
 
 	log.Debugf("send mail:%v, resp:%v, url:%s", mail, resp, url)
